@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+body {
+    margin-left: 50px;
+    margin-right: 50px;
+    font-family: 'Lato', sans-serif;
+}
+
+#table {
+    height: 500px;
+    width: 100%;
+    overflow: scroll;
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.buttons {
+    margin-bottom: 10px;
+}

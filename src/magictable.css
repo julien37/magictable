@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.mf-table-main {
+    font-size: 13px;
+    color: #282828;
+    display: table;
+    white-space: nowrap;
+    font-family: 'Lato', sans-serif;
+    border-collapse: collapse;
+}
+
+.mf-table-header-cells {
+    font-weight: normal;
+    position: sticky;
+    top: -1px;
+    cursor: pointer;
+}
+
+.mf-table-header-delete {
+    font-weight: normal;
+    position: sticky;
+    top: -1px;
+}
+
+table.mf-table-main tr.mf-table-row-element th.mf-table-header-cells {
+    padding: 3px;
+    background: #F0F0F0;
+}
+
+table.mf-table-main tr.mf-table-row-element th.mf-table-header-delete {
+    padding: 3px;
+    background: #F0F0F0;
+}
+
+table.mf-table-main tr.mf-table-row-element td.mf-table-data-cells {
+    padding: 3px;
+}
+
+table.mf-table-main tr.odd td.mf-table-data-cells {
+    background: rgba(75,137,255,0.1);
+}
+
+table.mf-table-main, th, td {
+    border: 1px solid grey;
+}
+
+.selected-cell {
+    border: 2px solid #0984e3;
+}
+
+.selected-row {
+    border: 2px solid #0984e3;
+}
+
+td.cells-selector {
+    background: #F0F0F0 !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    cursor: pointer;
+}
+
+td.mf-table-data-cells {
+    white-space:pre
+}
+
+.d-none{
+    display:none!important
+}
