@@ -59,6 +59,54 @@ function updateCellsPosition() {
     });
 }
 
+function updateMagictable() {
+    let x = 0;
+    let rowId;
+
+    $( "tr.mf-table-row-element").each(function() {
+        x++;
+    });
+    x--;
+
+    let apiResponse;
+    if (gValueSearched !== '') {
+        apiResponse = apiRequestor(gGetApi, "limit=" + x + "&pagination=0&keyword=" + encodeURIComponent(gValueSearched));
+    } else {
+        apiResponse = apiRequestor(gGetApi, "limit=" + x + "&pagination=0");
+    }
+
+
+    let htmlLayout = "";
+    $.each(apiResponse, function(index, row) {
+        let newIndexValue = index;
+        let indexCol = 0;
+
+        // Table content
+        if (index % 2 === 0) {
+            htmlLayout += '<tr class="mf-table-row-element even">';
+        } else {
+            htmlLayout += '<tr class="mf-table-row-element odd">';
+        }
+
+        if (gIsDeletable === true) {
+            htmlLayout += '<td data-exclude="true" class="mf-table-data-cells cells-selector" data-id="'+rowId+'"><input class="mf-input-delete" type="checkbox"></td>';
+        } else {
+            htmlLayout += '<td data-exclude="true" class="mf-table-data-cells cells-selector" data-id="'+rowId+'"></td>';
+        }
+
+        $.each(row, function(i,value) {
+            if (indexCol === 0) {
+                rowId = value;
+            }
+            htmlLayout += '<td class="mf-table-data-cells" data-position="'+newIndexValue+'-'+indexCol+'" data-field="'+Object.keys(row)[indexCol]+'" data-id="'+rowId+'">'+value+'</td>';
+            indexCol++;
+        });
+        htmlLayout += '</tr>';
+    });
+    $('#mf-table-body').html(htmlLayout);
+    $('#mt-number-lines').html("Rows loaded: " + x)
+}
+
 // Save modification
 function saveEditing(cellPosition) {
     let cellNewValue = $('#input-' + cellPosition).val();
@@ -207,7 +255,7 @@ function searchInTable(apiSearch) {
         $('#mt-btn-remove-search').removeClass('d-none');
 
         if (apiSearch === true) {
-            let apiResponse = apiRequestor(gGetApi, "keyword=" + gValueSearched);
+            let apiResponse = apiRequestor(gGetApi, "keyword=" + encodeURIComponent(gValueSearched));
             let htmlLayout = "";
             $.each(apiResponse, function(index, row) {
                 let newIndexValue = index;
@@ -237,24 +285,23 @@ function searchInTable(apiSearch) {
                 x++;
             });
             $('#mf-table-body').html(htmlLayout);
-            $('#mt-number-lines').html("Rows loaded: " + x)
         } else {
-            let x = 0;
             $("tr").each(function() {
                 if (!$(this).hasClass("header")) {
                     let hideLine = 1;
                     $(this).find('td').each(function() {
                         if ($(this).text().toLowerCase().includes(gValueSearched.toLowerCase())) {
                             hideLine = 0;
+                            x++;
                         }
                     });
                     if (hideLine === 1) {
                         $(this).addClass('d-none');
-                        console.log($(this).text());
                     }
                 }
             });
         }
+        $('#mt-number-lines').html("Rows loaded: " + x)
     }
 }
 
@@ -575,49 +622,8 @@ $('#mt-btn-delete').click(function(){
 });
 
 $('#mt-btn-update').click(function(){
-    let x = 0;
-    let rowId;
-
-    $( "tr.mf-table-row-element").each(function() {
-        x++;
-    });
-    x--;
-
-    let apiResponse = apiRequestor(gGetApi, "limit=" + x + "&pagination=0");
-    let htmlLayout = "";
-    $.each(apiResponse, function(index, row) {
-        let newIndexValue = index;
-        let indexCol = 0;
-
-        // Table content
-        if (index % 2 === 0) {
-            htmlLayout += '<tr class="mf-table-row-element even">';
-        } else {
-            htmlLayout += '<tr class="mf-table-row-element odd">';
-        }
-
-        if (gIsDeletable === true) {
-            htmlLayout += '<td data-exclude="true" class="mf-table-data-cells cells-selector" data-id="'+rowId+'"><input class="mf-input-delete" type="checkbox"></td>';
-        } else {
-            htmlLayout += '<td data-exclude="true" class="mf-table-data-cells cells-selector" data-id="'+rowId+'"></td>';
-        }
-
-        $.each(row, function(i,value) {
-            if (indexCol === 0) {
-                rowId = value;
-            }
-            htmlLayout += '<td class="mf-table-data-cells" data-position="'+newIndexValue+'-'+indexCol+'" data-field="'+Object.keys(row)[indexCol]+'" data-id="'+rowId+'">'+value+'</td>';
-            indexCol++;
-        });
-        htmlLayout += '</tr>';
-    });
-    $('#mf-table-body').html(htmlLayout);
-    $('#mt-number-lines').html("Rows loaded: " + x)
-
+    updateMagictable();
 });
-
-
-
 
 $('#mt-btn-search').click(function(){
     searchInTable(gSearchWithApi);
@@ -669,7 +675,6 @@ $('#mt-btn-remove-search').click(function(){
 
         gTriggerNewScroll = 1;
         gNumberLines = gLimit;
-
     }
 });
 

@@ -20,6 +20,7 @@
     font-weight: normal;
     position: sticky;
     top: -1px;
+    text-align: center;
 }
 
 table.mf-table-main tr.mf-table-row-element th.mf-table-header-cells {
@@ -63,6 +64,6 @@ td.mf-table-data-cells {
     white-space:pre
 }
 
-.d-none{
+.d-none {
     display:none!important
 }
