@@ -5,7 +5,7 @@
 <h4 align="center">Transform any HTML table into a Magic table!</h4>
 
 <p align="center">
-  <a href="#key-features">Features</a> •
+  <a href="#features">Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
